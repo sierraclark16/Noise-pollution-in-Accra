@@ -1,0 +1,18 @@
+name: "Noise in Accra"
+title: "Noise in Accra"
+type: inverse
+left:
+  - text: "The project"
+    menu:
+      - text: "Measurement of environmental noise in Accra"
+        href: ./measurement.html
+  - text: "Data Viz"
+    menu:
+       - text: "Spatial noise patterns"
+         href: ./Interactive-maps.html
+       - text: "Temporal noise patterns"
+         href: ./Animated-plots.html
+         
+right:
+  - icon: fa-github fa-lg
+    href: https://github.com/sierraclark16/mywebsite

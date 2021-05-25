@@ -1,0 +1,215 @@
+---
+title: "Mapping noise across Accra, Ghana"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, echo=FALSE}
+suppressPackageStartupMessages({
+library(stringr)
+library(rgdal)
+library(sp)  
+library(dplyr)
+library(tmap)
+})
+```
+
+```{r , echo=FALSE}
+day.long<-read.csv("/Users/sierraclark/Desktop/Sierras\ GitHub/Day.long.csv", header=TRUE)
+cov.long<-read.csv(file="/Users/sierraclark/Desktop/Sierras\ GitHub/data_log_form_long.csv", header=TRUE)
+long.cov<-merge(day.long, cov.long, by.x='ID', by.y='ID' ,all.x=TRUE)
+```
+
+```{r , echo=FALSE}
+day.short<-read.csv("/Users/sierraclark/Desktop/Sierras\ GitHub/Day.short.csv", header=TRUE)
+cov.short<-read.csv(file="/Users/sierraclark/Desktop/Sierras\ GitHub/data_log_form_short.csv", header=TRUE)
+short.cov<-merge(day.short, cov.long, by.x='ID', by.y='ID' ,all.x=TRUE)
+```
+
+```{r , echo=FALSE, message=FALSE , warning=FALSE, results='hide', include=FALSE}
+GAMA<-readOGR(dsn="/Users/sierraclark/Desktop/Sierras\ GitHub/spatial\ data/GAMA_boundV2.shp", layer="GAMA_boundV2")
+Maj_roads<-readOGR(dsn="/Users/sierraclark/Desktop/Sierras\ GitHub/spatial\ data/Major_roads_OSM2019.shp", layer="Major_roads_OSM2019")
+Maj_roads <- spTransform(Maj_roads, CRS("+init=epsg:32630")) # Re-project  to UTM 
+Sec_roads<-readOGR(dsn="/Users/sierraclark/Desktop/Sierras\ GitHub/spatial\ data/Sec_ter_roads_OSM2019.shp", layer="Sec_ter_roads_OSM2019")
+Sec_roads <- spTransform(Sec_roads, CRS("+init=epsg:32630")) # Re-project  to UTM 
+GAMA_utm <- spTransform(GAMA, CRS("+init=epsg:32630")) # Re-project AMA to UTM 
+
+Maj_roads <- Maj_roads[GAMA_utm, ] ## Clipping Road files to GAMA 
+Sec_roads <- Sec_roads[GAMA_utm, ] ## Clipping Road files to GAMA 
+
+water<-readOGR(dsn="/Users/sierraclark/Desktop/Sierras\ GitHub/spatial\ data/Lake_accra.shp", layer="Lake_accra")
+water<- spTransform(water, CRS("+init=epsg:32630")) #re-project to UTM 
+```
+
+```{r , echo=FALSE}
+coords <- cov.long[ , c("Lon", "Lat")]   # coordinates
+data   <- cov.long[ , ]          # data
+#crs    <- CRS("+init=epsg:32630") # projected 
+crs    <- CRS("+init=epsg:4326")
+# make the spatial points data frame object
+long.sites <- SpatialPointsDataFrame(coords = coords,
+                                     data = data, 
+                                     proj4string = crs)
+
+library(rgdal)
+long_utm <- spTransform(long.sites, CRS("+init=epsg:32630")) # Re-project  to UTM 
+
+
+coords <- cov.short[ , c("Lon", "Lat")]   # coordinates
+data   <- cov.short[ , ]          # data
+#crs    <- CRS("+init=epsg:32630") # projected 
+crs    <- CRS("+init=epsg:4326")
+# make the spatial points data frame object
+short.sites <- SpatialPointsDataFrame(coords = coords,
+                                     data = data, 
+                                     proj4string = crs)
+
+library(rgdal)
+short_utm <- spTransform(short.sites, CRS("+init=epsg:32630")) # Re-project to UTM 
+```
+
+Knowing where the noisest areas are located in a city is important for policy, planning, and public awareness. 
+
+In Accra, we took our minute-by-minute noise measurements, that were collected for either 7-days (136 rotating site locations) or a 1-year period (10 fixed site locations), and summarized the daily, day-time, and night-time metrics for each location. 
+
+## LAeq24hr: Daily equivalent continuous sound levels (dBA) 
+```{r , echo=FALSE, warning=FALSE, message=FALSE }
+# Median LAeq24hr  
+data.agg<-aggregate(short.cov$LAeq24hr, by=list(short.cov$ID), FUN=median)
+data.agg<-plyr::rename(data.agg, c("Group.1"="ID", "x"="Median LAeq24hr (dBA)"))
+short.spatial<- merge(short_utm, data.agg, by.x=c('ID'), by.y=c('ID'), all.x=TRUE) 
+
+data.agg<-aggregate(long.cov$LAeq24hr, by=list(long.cov$ID), FUN=median)
+data.agg<-plyr::rename(data.agg, c("Group.1"="ID", "x"="LAeq24hr"))
+Fixed.data<- merge(long_utm, data.agg, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+short.spatial$num<- as.character(formatC(short.spatial$'Median LAeq24hr (dBA)',  big.mark = " ",  format = "f",   digits = 0))
+Fixed.data$num<- as.character(formatC(Fixed.data$'LAeq24hr',  big.mark = " ",  format = "f",   digits = 0))
+GAMA_utm$id<-as.character('GAMA')
+Sec_roads$id<-as.character(' ')
+Maj_roads$id<-as.character(' ')
+water$id<-as.character(' ')
+
+tmap_mode('view')
+fig1 <-tm_shape(GAMA_utm) + tm_fill(col="grey90", alpha=0.4, id='id')  + tm_shape(Sec_roads) + tm_lines(col="grey77", legend.col.show = TRUE, id='id') +
+  tm_shape(Maj_roads) + tm_lines(col="grey50", legend.col.show = TRUE, lwd=1, id='id') +
+  tm_shape(short.spatial) + tm_bubbles( size=0.25, col="Median LAeq24hr (dBA)",  style="equal", palette="YlOrBr", id="num") +  
+  tm_shape(Fixed.data) + tm_bubbles( size=0.7, col="LAeq24hr",shape=24, border.col="black", style="fixed", palette="YlOrBr",legend.col.show=FALSE, breaks=c(52, 57, 61, 66, 70 ,75), id="num") + 
+  tm_shape(water) + tm_fill(col='cadetblue2', alpha=0.8, id='id') + 
+  tm_layout(legend.position = c("right","bottom"), legend.format = list(scientific = TRUE, digits = 2), 
+            legend.title.size = 1, legend.text.size=0.90, frame=FALSE)
+fig1
+```
+*The larger circles indicate fixed sites (1 year)
+
+
+## Lday: Day-time equivalent continuous sound levels (dBA) 
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+# Median Lday 
+data.agg.day<-aggregate(short.cov$LDay, by=list(short.cov$ID), FUN=median)
+data.agg.day$x<-as.numeric(data.agg.day$x)
+data.agg.day<-plyr::rename(data.agg.day, c("Group.1"="ID", "x"="Median Lday (dBA)"))
+short.spatial<- merge(short_utm, data.agg.day, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+data.agg.day<-aggregate(long.cov$LDay, by=list(long.cov$ID), FUN=median)
+data.agg.day$x<-as.numeric(data.agg.day$x)
+data.agg.day<-plyr::rename(data.agg.day, c("Group.1"="ID", "x"="Lday"))
+Fixed.data<- merge(long_utm, data.agg.day, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+short.spatial$num<- as.character(formatC(short.spatial$'Median Lday (dBA)',  big.mark = " ",  format = "f",   digits = 0))
+Fixed.data$num<- as.character(formatC(Fixed.data$'Lday',  big.mark = " ",  format = "f",   digits = 0))
+GAMA_utm$id<-as.character('GAMA')
+Sec_roads$id<-as.character(' ')
+Maj_roads$id<-as.character(' ')
+water$id<-as.character(' ')
+
+fig2 <-tm_shape(GAMA_utm) + tm_fill(col="grey90", alpha=0.4, id='id') + tm_shape(Sec_roads) + tm_lines(col="grey77", legend.col.show = TRUE, id='id') +
+  tm_shape(Maj_roads) + tm_lines(col="grey50", legend.col.show = TRUE, lwd=1, id='id') + 
+  tm_shape(short.spatial) + tm_bubbles( size=0.25, col="Median Lday (dBA)", style="equal", palette="Reds", 
+                                        id="num") +  
+  tm_shape(Fixed.data) + tm_bubbles( size=0.7, col="Lday",shape=24, border.col="grey30", style="fixed", palette="Reds",legend.col.show=FALSE , breaks=c(53, 58, 62, 67, 71, 76), id="num") + 
+  tm_shape(water) + tm_fill(col='cadetblue2', alpha=0.8) + 
+  tm_layout(legend.position = c("right","top"), legend.format = list(scientific = TRUE, digits = 2), 
+            legend.title.size = 1, legend.text.size=0.90, frame=FALSE) 
+fig2
+```
+*The larger circles indicate fixed sites (1 year)
+
+## Lnight: Night-time equivalent continuous sound levels (dBA) 
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+# Median LNight
+data.agg.night<-aggregate(short.cov$LNight, by=list(short.cov$ID), FUN=median)
+data.agg.night$x<-as.numeric(data.agg.night$x)
+data.agg.night<-plyr::rename(data.agg.night, c("Group.1"="ID", "x"="Median Lnight (dBA)"))
+short.spatial<- merge(short_utm, data.agg.night, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+data.agg.night<-aggregate(long.cov$LNight, by=list(long.cov$ID), FUN=median)
+data.agg.night$x<-as.numeric(data.agg.night$x)
+data.agg.night<-plyr::rename(data.agg.night, c("Group.1"="ID", "x"="Lnight"))
+Fixed.data<- merge(long_utm, data.agg.night, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+short.spatial$num<- as.character(formatC(short.spatial$'Median Lnight (dBA)',  big.mark = " ",  format = "f",   digits = 0))
+Fixed.data$num<- as.character(formatC(Fixed.data$'Lnight',  big.mark = " ",  format = "f",   digits = 0))
+GAMA_utm$id<-as.character('GAMA')
+Sec_roads$id<-as.character(' ')
+Maj_roads$id<-as.character(' ')
+water$id<-as.character(' ')
+
+fig3 <-tm_shape(GAMA_utm) + tm_fill(col="grey90", alpha=0.4, id='id') +  tm_shape(Sec_roads) + tm_lines(col="grey77", legend.col.show = TRUE, id='id') +
+  tm_shape(Maj_roads) + tm_lines(col="grey50", legend.col.show = TRUE, lwd=1, id='id') + 
+  tm_shape(short.spatial) + tm_bubbles( size=0.25, col="Median Lnight (dBA)",  style="equal", palette="BuPu",
+                                       id="num") +  
+  tm_shape(Fixed.data) + tm_bubbles( size=0.7, col="Lnight",shape=24, border.col="grey30",  style="fixed", palette="BuPu",legend.col.show=FALSE, breaks=c(46,52, 57, 62, 67, 72 ), id="num" ) + 
+  tm_shape(water) + tm_fill(col='cadetblue2', alpha=0.8) + 
+  tm_layout(legend.position = c("right","bottom"), legend.format = list(scientific = TRUE, digits = 2), legend.title.size = 1, legend.text.size=0.90, frame=FALSE) + 
+  tm_add_legend(type = c("line"), labels = c("Major roads", "Secondary roads"), 
+                col = c("grey30", "grey60"), lty = 1, lwd=c(1.5, 1), title="") + 
+  tm_scale_bar(width=0.15, size=1.2)
+fig3
+```
+* The larger circles indicate fixed sites (1 year)
+
+
+## IR24hr: Daily Intermittency Ratios (%) 
+(What percentage of the total sound energy is from intermittent events (e.g., Ambulance siren or an airplane flying overhead)) 
+```{r ,echo=FALSE , warning=FALSE, message=FALSE}
+# Median IR 
+data.agg.ir<-aggregate(short.cov$IR, by=list(short.cov$ID), FUN=median)
+data.agg.ir$x<-as.numeric(data.agg.ir$x)
+data.agg.ir<-plyr::rename(data.agg.ir, c("Group.1"="ID", "x"="Median IR24hr (%)"))
+short.spatial<- merge(short_utm, data.agg.ir, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+data.agg.ir<-aggregate(long.cov$IR, by=list(long.cov$ID), FUN=median)
+data.agg.ir$x<-as.numeric(data.agg.ir$x)
+data.agg.ir<-plyr::rename(data.agg.ir, c("Group.1"="ID", "x"="IR"))
+Fixed.data<- merge(long_utm, data.agg.ir, by.x=c('ID'), by.y=c('ID'),  all.x=TRUE) 
+
+short.spatial$num<- as.character(formatC(short.spatial$'Median IR24hr (%)',  big.mark = " ",  format = "f",   digits = 0))
+Fixed.data$num<- as.character(formatC(Fixed.data$'IR',  big.mark = " ",  format = "f",   digits = 0))
+GAMA_utm$id<-as.character('GAMA')
+Sec_roads$id<-as.character(' ')
+Maj_roads$id<-as.character(' ')
+water$id<-as.character(' ')
+
+fig4 <-tm_shape(GAMA_utm) + tm_fill(col="grey90", alpha=0.4, id='id') +  tm_shape(Sec_roads) + tm_lines(col="grey77", legend.col.show = TRUE, id='id') +
+  tm_shape(Maj_roads) + tm_lines(col="grey50", legend.col.show = TRUE, lwd=1, id='id') + 
+  tm_shape(short.spatial) + tm_bubbles( size=0.25, col="Median IR24hr (%)",  style="equal", palette="GnBu", 
+                                        id="num") +  
+  tm_shape(Fixed.data) + tm_bubbles( size=0.7, col="IR",shape=24, border.col="grey30", style="fixed", palette="GnBu",legend.col.show=FALSE ,breaks=c(15, 30, 44, 58, 72, 86), id="num") + 
+  tm_shape(water) + tm_fill(col='cadetblue2', alpha=0.8) + 
+  tm_layout(legend.position = c("right","bottom"), 
+            legend.format = list(scientific = TRUE, digits = 2), legend.title.size = 1, legend.text.size=0.90, frame=FALSE) 
+fig4
+```
+* The larger circles indicate fixed sites (1 year)
+
+Figures are adapted from the open access peer-reviewed published paper [Clark et al. Space-time characterization of characterization of community noise and sound sources in Accra, Ghana. Scientific Reports. 2021](Link)
+
+
+
+

@@ -1,0 +1,75 @@
+---
+title: "Diurnal noise trends in Accra, Ghana"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+```{r , echo=FALSE}
+suppressPackageStartupMessages({
+library(gganimate)
+library(ggplot2)
+library(transformr)
+library(lubridate)
+library(RColorBrewer)
+})
+```
+
+```{r, echo=FALSE}
+hr.short<-read.csv("/Users/sierraclark/Desktop/Sierras\ GitHub/Hr.short.csv", header=TRUE)
+cov.short<-read.csv(file="/Users/sierraclark/Desktop/Sierras\ GitHub/data_log_form_short.csv", header=TRUE)
+
+```
+
+```{r, echo=FALSE}
+short.cov<-merge(hr.short, cov.short, by.x='ID', by.y='ID' ,all.x=TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+short.cov$hour<-hour(short.cov$date_hour)
+```
+
+```{r, echo=FALSE}
+short.cov$site_type_ord <- factor(short.cov$site_type, levels=c('other', 'low-dens', 'high-dens', 'commercial'), 
+                                   labels=c('Peri-urban background', 'Medium/ low-density residential', 'High-density residential', 'CBI')) 
+```
+
+```{r, echo=FALSE}
+nb.cols<-30
+mycolors<-colorRampPalette(brewer.pal(9,'RdPu'))(nb.cols)
+mycolors<-mycolors[4:30]
+```
+
+Community noise levels flucuate throughout the day. However, in Accra, the day (6:00-21:59) and night-time (22:00-5:59) differences vary by the type of land use, which impacts people's experiences of noise throughout the city. 
+
+Commercial, business, and industrial (CBI) areas were the loudest in both the day and the night-time, followed by high-density residential areas. We even found that night-time noise in CBI areas were generally louder (median Lnight: 63 dBA) than day-time noise in peri-urban areas (median Lday: 57 dBA). 
+
+The figure shows the cummulative density's of community noise levels for different hours of the day and land use areas in the Greater Accra Metropolitan Area. The figure is adapted from [Clark et al. (In press). Space-time characterization of characterization of community noise and sound sources in Accra, Ghana. Scientific Reports. 2021](Link Add). 
+
+```{r, warning=FALSE, echo=FALSE}
+t<-ggplot (data=short.cov, aes(x=LAeqhr, group=as.factor(hour), col=as.factor(hour))) + stat_ecdf(geom='line', size=1.1) + 
+  scale_color_manual(values=mycolors) +
+  theme_classic(base_size = 8) + facet_wrap(~site_type_ord, ncol=2) +
+  labs( x="LAeq-1hr (dBA)", y="Cumulative Distribution Function", col='Hour of the day', title='Hour: {frame_time}') + 
+  theme(legend.position = "bottom")+
+  theme(plot.title=element_text(size = 14))+
+  theme(axis.text.y=element_text(size=12)) +
+  theme(strip.background = element_rect(colour="white"))+
+  theme(plot.title=element_text(hjust=0))+
+  theme(axis.ticks=element_blank())+
+  theme(axis.text=element_text(size=12))+
+  theme(legend.title=element_text(size=12))+
+  theme(legend.text=element_text(size=10)) + 
+  theme(axis.title.x = element_text(size=14)) + 
+  theme(axis.title.y = element_text(size=14)) + 
+  theme(strip.text = element_text(size=14)) +
+  theme(legend.position = "bottom") + transition_time(hour) + shadow_mark(alpha=0.3)
+animate(t, fps=10)
+```
+
+Legend: CBI: Commercial, business, and industrial areas; LAeq-1hr: 1-hour equivalent continuous sound levels; dBA: A-weighted decibels.  
+

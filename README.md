@@ -1,1 +1,6 @@
-# Noise-pollution-in-Accra
+# Research on noise pollution in Accra 
+Noise is all around us in cities and affects our health and wellbeing. Health studies have shown that exposure to noise from road, rail and aircraft traffic sources can impact our health in various ways, including hearing impairment, cardiometabolic diseases, sleep disturbance, impaired cognitive function, and stress/annoyance.
+
+Cities in sub-Saharan Africa (SSA) are undergoing significant expansion and economic transformations. Growing SSA cities are now characterized by glaring urban transport problems and traffic related noise pollution. Traffic noise also coexists with noise from human activities, such as loud, pervasive music, construction and building-works, commercial, market, and even religious activities, making noise pollution an emerging health concern. However, there are few studies and limited information on, noise levels and their spatial and temporal distributions in SSA cities.  
+
+In the west African city of Accra, Ghana, the Pathways to Equitable Healthy Cities project is measuring and modelling noise pollution across the city. This particular work stems from an ongoing PhD thesis conducted by Sierra Clark (Imperial College London (2018 - current)) in collaboration with partners at the University of Ghana, Imperial College London, University of Massachusetts Amherst, University of British Columbia (UBC), and more. 
