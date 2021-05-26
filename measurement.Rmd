@@ -13,7 +13,7 @@ The Pathways project undertook an ambitious one-year measurement campaign of com
 
 Urban sound levels were measured continuously on the decibel scale (A-weighted, dBA) with handheld sound level meters (Convergence Instruments, Canada). The sound level meters were deployed in a custom designed weather protective enclosure at ~4 meters off the ground.
 
-More information about the measurement campaign can be found in the open access peer-reviewed published protocol paper [Clark et al. BMJ Open. 2020](https://bmjopen.bmj.com/content/10/8/e035798), or from the Pathways project [blog](http://equitablehealthycities.org/blog/boosting-air-and-noise-pollution-monitoring-in-sub-saharan-african-cities/). 
+More information on the measurement campaign can be found in the open access peer-reviewed protocol paper [Clark et al. BMJ Open. 2020](https://bmjopen.bmj.com/content/10/8/e035798) or from the Pathways project [blog](http://equitablehealthycities.org/blog/boosting-air-and-noise-pollution-monitoring-in-sub-saharan-african-cities/). 
 
 ![](assets/Field work.png)
 

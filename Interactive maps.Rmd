@@ -208,7 +208,7 @@ fig4
 ```
 * The larger circles indicate fixed sites (1 year)
 
-Figures are adapted from the open access peer-reviewed published paper [Clark et al. Space-time characterization of characterization of community noise and sound sources in Accra, Ghana. Scientific Reports. 2021](Link)
+Figures are adapted from the open access peer-reviewed published paper Clark et al. Scientific Reports. 2021.
 
 
 

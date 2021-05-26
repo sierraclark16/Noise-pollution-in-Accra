@@ -9,7 +9,7 @@ Noise is all around us in cities and affects our health and wellbeing. Health st
 
 Cities in sub-Saharan Africa (SSA) are undergoing significant expansion and economic transformations. Growing SSA cities are now characterized by glaring urban transport problems and traffic related noise pollution. Traffic noise also coexists with noise from human activities, such as loud, pervasive music, construction and building-works, commercial, market, and even religious activities, making noise pollution an emerging health concern. However, there are few studies and limited information on noise levels and their spatial and temporal distributions in SSA cities.  
 
-In the west African city of Accra, Ghana, the Pathways to Equitable Healthy Cities project is measuring and characterizing noise pollution across the city. This particular work (which is showcased on this web page) stems from an ongoing PhD thesis conducted by Sierra Clark (Imperial College London (2018 - current)) in collaboration with partners at the University of Ghana, Imperial College London, University of Massachusetts Amherst, University of British Columbia (UBC), and more. 
+In the west African city of Accra, Ghana, the Pathways to Equitable Healthy Cities project is measuring and characterizing noise pollution across the city. This particular work (which is showcased on this web page) stems from an ongoing PhD thesis conducted by Sierra Clark (Imperial College London (2018 - current)) in collaboration with partners at the University of Ghana, Imperial College London, University of Massachusetts Amherst, University of British Columbia and more. 
 
 ![](assets/Accra2.jpeg)
 
@@ -23,9 +23,9 @@ The [Pathways to Equitable Healthy Cities](http://equitablehealthycities.org/abo
 ### Published open access research papers associated with this work 
 
 
-[S Clark, A.S Alli, M Brauer, M Ezzati, J Baumgartner, M Toledano, A Hughes, J Nimo, J Bedford Moses, S Terkpertey, J Vallarino, S Agyei-Mensah, E Agyemang, R Nathvani, E Muller, J Bennet, J Wang, A Beddows, F Kelly, B Barratt, S Beevers, R Arku. (2020). High-resolution spatiotemporal measurement of air and envi-ronmental noise pollution in sub-Saharan African cities: Pathways to Equitable Health Cities Study pro-tocol for Accra, Ghana. BMJ Open](https://bmjopen.bmj.com/content/10/8/e035798) 
+[S Clark, A.S Alli, M Brauer, M Ezzati, J Baumgartner, M Toledano, A Hughes, J Nimo, J Bedford Moses, S Terkpertey, J Vallarino, S Agyei-Mensah, E Agyemang, R Nathvani, E Muller, J Bennet, J Wang, A Beddows, F Kelly, B Barratt, S Beevers, R Arku. High-resolution spatiotemporal measurement of air and envi-ronmental noise pollution in sub-Saharan African cities: Pathways to Equitable Health Cities Study pro-tocol for Accra, Ghana. BMJ Open. 2020.](https://bmjopen.bmj.com/content/10/8/e035798) 
 
-S Clark, AS Alli, R Nathvani, A Hughes, M Ezzati, M Brauer, M Toledano, J Baumgartner, J Bennett, J Nimo, J Bedford Moses, S Terkpertey, S Agyei-Mensah, G Owusu, B Croft, R Arku. (In Press). Space-time characterization of noise pollution and sound sources in Accra, Ghana. Scientific Reports.
+S Clark, AS Alli, R Nathvani, A Hughes, M Ezzati, M Brauer, M Toledano, J Baumgartner, J Bennett, J Nimo, J Bedford Moses, S Baah, S Agyei-Mensah, G Owusu, B Croft, R Arku. Space-time characterization of noise pollution and sound sources in Accra, Ghana. Scientific Reports. 2021.
 
 ### Web page credit
 
