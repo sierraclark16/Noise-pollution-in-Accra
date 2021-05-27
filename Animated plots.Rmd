@@ -48,7 +48,7 @@ Community noise levels flucuate throughout the day. However, in Accra, the day (
 
 Commercial, business, and industrial (CBI) areas were the loudest in both the day and the night-time, followed by high-density residential areas. We even found that night-time noise in CBI areas were generally louder (median Lnight: 63 dBA) than day-time noise in peri-urban areas (median Lday: 57 dBA). 
 
-The figure shows the cummulative density's of community noise levels for different hours of the day and land use areas in the Greater Accra Metropolitan Area. The figure is adapted from Clark et al. Scientific Reports. 2021.
+The figure shows the cummulative density's of community noise levels for different hours of the day and land use areas in the Greater Accra Metropolitan Area. The figure is adapted from [Clark et al. Scientific Reports. 2021](https://www.nature.com/articles/s41598-021-90454-6).
 
 ```{r, warning=FALSE, echo=FALSE}
 t<-ggplot (data=short.cov, aes(x=LAeqhr, group=as.factor(hour), col=as.factor(hour))) + stat_ecdf(geom='line', size=1.1) + 

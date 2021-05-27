@@ -25,7 +25,7 @@ The [Pathways to Equitable Healthy Cities](http://equitablehealthycities.org/abo
 
 [S Clark, A.S Alli, M Brauer, M Ezzati, J Baumgartner, M Toledano, A Hughes, J Nimo, J Bedford Moses, S Terkpertey, J Vallarino, S Agyei-Mensah, E Agyemang, R Nathvani, E Muller, J Bennet, J Wang, A Beddows, F Kelly, B Barratt, S Beevers, R Arku. High-resolution spatiotemporal measurement of air and envi-ronmental noise pollution in sub-Saharan African cities: Pathways to Equitable Health Cities Study pro-tocol for Accra, Ghana. BMJ Open. 2020.](https://bmjopen.bmj.com/content/10/8/e035798) 
 
-S Clark, AS Alli, R Nathvani, A Hughes, M Ezzati, M Brauer, M Toledano, J Baumgartner, J Bennett, J Nimo, J Bedford Moses, S Baah, S Agyei-Mensah, G Owusu, B Croft, R Arku. Space-time characterization of noise pollution and sound sources in Accra, Ghana. Scientific Reports. 2021.
+[S Clark, AS Alli, R Nathvani, A Hughes, M Ezzati, M Brauer, M Toledano, J Baumgartner, J Bennett, J Nimo, J Bedford Moses, S Baah, S Agyei-Mensah, G Owusu, B Croft, R Arku. Space-time characterization of noise pollution and sound sources in Accra, Ghana. Scientific Reports. 2021](https://www.nature.com/articles/s41598-021-90454-6).
 
 ### Web page credit
 

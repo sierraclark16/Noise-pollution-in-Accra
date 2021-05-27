@@ -208,7 +208,7 @@ fig4
 ```
 * The larger circles indicate fixed sites (1 year)
 
-Figures are adapted from the open access peer-reviewed published paper Clark et al. Scientific Reports. 2021.
+Figures are adapted from the open access peer-reviewed published paper [Clark et al. Scientific Reports. 2021.](https://www.nature.com/articles/s41598-021-90454-6)
 
 
 
