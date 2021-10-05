@@ -6,12 +6,14 @@ left:
     menu:
       - text: "Measurement of environmental noise in Accra"
         href: ./measurement.html
-  - text: "Data Viz"
+  - text: "Data Visualization"
     menu:
-       - text: "Spatial noise patterns"
+       - text: "Noise levels across space"
          href: ./Interactive-maps.html
-       - text: "Temporal noise patterns"
+       - text: "Noise levels across time"
          href: ./Animated-plots.html
+       - text: "Sound types across time"
+         href: ./SoundType.html
          
 right:
   - icon: fa-github fa-lg
